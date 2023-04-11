@@ -375,8 +375,15 @@ class Chrome(selenium.webdriver.chrome.webdriver.WebDriver):
                 options.add_argument("--headless=chrome")
             elif self.patcher.version_main >= 108:
                 options.add_argument("--headless=new")
-
-        options.add_argument("--window-size=1920,1080")
+        
+        # we don't want dublicated "--window-size=X,Y" arguments
+        window_size_defined = False
+        for arg in options.arguments:
+            if "--window-size" not in arg.split("=")[0]
+                window_size_defined = True
+        if not window_size_defined:
+             options.add_argument("--window-size=1920,1080")
+        
         options.add_argument("--start-maximized")
         options.add_argument("--no-sandbox")
         # fixes "could not connect to chrome" error when running
